@@ -1,0 +1,12 @@
+.sourceHeader {
+  font-size: 30px;
+  font-weight: 700;
+}
+.openSource,
+.closedSource {
+  font-size: 18px;
+  font-weight: 500;
+}
+.switch {
+  font-size: 20px;
+}

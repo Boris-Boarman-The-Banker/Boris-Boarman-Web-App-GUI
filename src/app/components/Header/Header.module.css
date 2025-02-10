@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.header {
+  margin: 2.5rem 2.5rem 0 2.5rem;
+}
+.heading {
+  margin: 0;
+}
+.dropdown,
+.credit,
+.session {
+  background-color: white;
+  padding: 20px;
+  font-family: "Poppins";
+}
+.credit {
+  margin-right: 20px;
+}
+.userAccount {
+    display: flex;
+    justify-content: center;
+}
+.dropdownToggle {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #e2e6ea;
+  color: #000;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .header {
+    flex-direction: column;
+    margin: 10px 1rem 0 1rem;
+  }
+  .dropdown,
+  .credit,
+  .session {
+    width: 100%;
+  }
+  .rightSide {
+    flex-direction: column;
+  }
+  .credit {
+    margin: 10px 0;
+  }
+  .userAccount{
+    justify-content: space-between;
+  }
+  .dropdownToggle {
+    font-size: 30px;
+  }
+}

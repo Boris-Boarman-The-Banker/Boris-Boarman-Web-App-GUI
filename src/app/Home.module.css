@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.mainBody{
+  display: flex;
+  margin: 2.5rem 2.5rem 0 2.5rem;
+}
+.leftSide {
+  width: 70%;
+  margin-right: 5px;
+}
+.executiveSummary {
+  margin-bottom: 2.5rem;
+}
+.executiveSummary,
+.problemStatment,
+.userInput {
+  background-color: white;
+  padding: 20px;
+}
+.executiveSummary > h3,
+.problemStatment > h3,
+.character > h3 {
+  /* font-family: 'Poppins'; */
+}
+.executiveSummary > p {
+  /* font-family: 'Poppins'; */
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #F2F2F2;
+  padding: 20px;
+  border-radius: 20px;
+}
+.problemStatment > p,
+.problemStatmentText,
+.character > p {
+  /* font-family: 'Poppins'; */
+  font-size: 14px;
+  font-weight: 400;
+}
+.problemStatmentText {
+  background-color: #F2F2F2;
+  padding: 20px;
+  border-radius: 20px;
+}
+.userInput {
+  margin-top: 2rem;
+}
+.character {
+  display: flex;
+  justify-content: space-between;
+}
+
+.problemContent {
+  padding: 20px;
+  border-radius: 20px;
+  background-color:#F2F2F2;;
+}
+.awaitingResponse {
+  color: #414BB2;
+  font-style: italic;
+}
+
+.form {
+  border: 1px solid #D1D0D1;
+  border-radius: 20px;
+  padding: 20px;
+}
+.textarea {
+  width: 100%;
+  border: none;
+  height: 100px;
+  resize: none;
+  scroll-behavior: smooth;
+  overflow: hidden;
+  padding-right: 20px;
+  background: transparent;
+}
+.textarea:focus {
+  outline: none;
+}
+.processBtn {
+  background-color: #414BB2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 40px;
+  font-family: 'Poppins';
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.rightSide {
+  width: 30%;
+  margin-left: 5px;
+}
+.rightSideHeader {
+  background-color: white;
+  padding: 20px;
+}
+.score {
+  color: #505bb9;
+  font-weight: bold;
+  /* font-family: 'Poppins'; */
+  font-size: 25px;
+}
+.accordions {
+  margin-top: 20px;
+}
+
+.accordion {
+  margin-bottom: 10px;
+}
+
+.accordionButton {
+  width: 100%;
+  margin-bottom: 2px;
+  background-color:white ;
+  color:#414BB2 ;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight:600;
+  /* font-family: 'Poppins', sans-serif; */
+  text-align: left;
+}
+
+.accordionContent {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  height: 500px;
+  overflow-y: auto;
+  margin: 1px;
+}
+
+.resetIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ccc;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.resetIcon:hover {
+  color: #ff0000; 
+}
+
+.warning {
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.processBtn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+  color: white; 
+}
+
