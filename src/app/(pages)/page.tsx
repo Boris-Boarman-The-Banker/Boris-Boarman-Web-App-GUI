@@ -1,167 +1,209 @@
 "use client";
-import { useCredits } from "@/context/CreditsContext";
+import { useUser } from "@/context/UserContext";
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
 import '@mysten/dapp-kit/dist/index.css';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header/Header";
 import styles from "../Home.module.css";
+import { useSuiFundRelease } from "@/lib/sui";
+
+// Types
+interface TxDetails {
+  digest: string;
+  network: string;
+}
+
+interface FormState {
+  executiveSummary: string;
+  problemStatement: string;
+  feasibilityPlan: string;
+  feasibility: string;
+  teamSkillsProfile: string;
+  teamSkills: string;
+}
+
+interface ScoreState {
+  problemScore: number;
+  feasibilityScore: number;
+  teamSkillsScore: number;
+}
 
 export default function Page() {
+  // Form state
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [executiveSummary, setExecutiveSummary] = useState(
-    "Boris Boarman is a specialized platform designed to evaluate and guide project proposals for crypto foundation grants. With a focus on the blockchain ecosystem, Boris assists users in refining their project ideas to ensure alignment with relevant grant opportunities. The platform offers comprehensive evaluations, including feasibility analysis, market size projections, and impact assessments."
-  );
-  const [problemStatement, setProblemStatement] = useState(
-    "Describe the problem this project will solve and why it matters. Include any helpful data or statistics to back up your points."
-  );
-  const [feasibilityPlan, setFeasibilityPlan] = useState("");
-  const [feasibility, setFeasibility] = useState(
-    "Feasibility analysis will appear here."
-  );
-  const [teamSkillsProfile, setTeamSkillsProfile] = useState("");
-  const [teamSkills, setTeamSkills] = useState(
-    "Team skills evaluation will appear here."
-  );
-  const [score, setScore] = useState(0);
-  const [feasibilityScore, setFeasibilityScore] = useState(0);
-  const [teamSkillsScore, setTeamSkillsScore] = useState(0);
+  const [formState, setFormState] = useState<FormState>({
+    executiveSummary: "Boris Boarman is a specialized platform designed to evaluate and guide project proposals for crypto foundation grants. With a focus on the blockchain ecosystem, Boris assists users in refining their project ideas to ensure alignment with relevant grant opportunities. The platform offers comprehensive evaluations, including feasibility analysis, market size projections, and impact assessments.",
+    problemStatement: "Describe the problem this project will solve and why it matters. Include any helpful data or statistics to back up your points.",
+    feasibilityPlan: "",
+    feasibility: "Feasibility analysis will appear here.",
+    teamSkillsProfile: "",
+    teamSkills: "Team skills evaluation will appear here."
+  });
+
+  // Score state
+  const [scores, setScores] = useState<ScoreState>({
+    problemScore: 0,
+    feasibilityScore: 0,
+    teamSkillsScore: 0
+  });
+
+  // UI state
   const [activeAccordion, setActiveAccordion] = useState<number | null>(1);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const [showTxModal, setShowTxModal] = useState(false);
+  const [txDetails, setTxDetails] = useState<TxDetails | null>(null);
+  const [eligible, setEligible] = useState(false);
+  const [isClaimLoading, setIsClaimLoading] = useState(false);
 
+  // Session state
+  const [uniqueSessionId] = useState(() => crypto.randomUUID());
+
+  // External hooks
   const currentAccount = useCurrentAccount();
-  const { setCredits } = useCredits();
+  const { executeFunction } = useSuiFundRelease({ currentAccount });
+  const { isLoggedIn, googleCredential, fetchUserDetails } = useUser();
 
-  useEffect(() => {
-    const storedGoogleCredential = localStorage.getItem("googleCredential");
-    if (storedGoogleCredential) {
-      setIsLoggedIn(true);
-      fetchUserDetails(storedGoogleCredential);
-    }
-  }, []);
-
-  const fetchUserDetails = (googleCredential: string) => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ google_credential: googleCredential }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user details: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCredits(data.credits);
-      })
-      .catch((error) => {
-        console.error("Error fetching user details:", error);
-      });
-  };
+  const totalScore = scores.problemScore + scores.feasibilityScore + scores.teamSkillsScore;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  const TotalScore = score + teamSkillsScore + feasibilityScore;
-
-  const clearText = () => {
-    setText("");
-  };
+  const clearText = () => setText("");
 
   const toggleAccordion = (index: number) => {
     setActiveAccordion(activeAccordion === index ? null : index);
   };
 
-  const handleSubmit = (step: number) => {
+  const handleSubmit = async (step: number) => {
     if (!activeAccordion) return;
-
     setSubmitting(true);
 
-    const clientId = localStorage.getItem("clientId");
-    const googleCredential = localStorage.getItem("googleCredential");
+    const selection = step === 1 ? ["executiveSummary"] 
+                   : step === 2 ? ["feasibilityPlan"]
+                   : ["teamSkillsProfile"];
 
-    let selection: string[] = [];
-    if (step === 1) {
-      selection = ["executiveSummary"];
-    } else if (step === 2) {
-      selection = ["feasibilityPlan"];
-    } else if (step === 3) {
-      selection = ["teamSkillsProfile"];
-    }
-
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/form`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        projectIdea: text,
-        google_client_id: clientId,
-        google_credential: googleCredential,
-        apiSelection: selection,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (step === 1) {
-          setExecutiveSummary(data.executiveSummary);
-          setProblemStatement(data.problemStatement);
-          setScore(data.score);
-          setFeasibilityScore(feasibilityScore || 0);
-          setTeamSkillsScore(teamSkillsScore || 0);
-        } else if (step === 2) {
-          setFeasibilityPlan(data.feasibilityPlan);
-          setFeasibility(
-            data.feasibilityScoreReasoning ||
-            "Feasibility details not available."
-          );
-          setScore(score || 0);
-          setFeasibilityScore(data.feasibilityScore || 0);
-        } else if (step === 3) {
-          setTeamSkillsProfile(data.teamSkillsProfile);
-          setTeamSkills(
-            data.teamSkillsScoreReasoning ||
-            "Team skills details not available."
-          );
-          setScore(score || 0);
-          setFeasibilityScore(feasibilityScore || 0);
-          setTeamSkillsScore(data.teamSkillsScore || 0);
-        }
-
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ google_credential: googleCredential }),
-        })
-          .then((res) => res.json())
-          .then((userData) => setCredits(userData.credits));
-      })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      })
-      .finally(() => {
-        setSubmitting(false);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/form`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uniqueSessionId,
+          projectIdea: text,
+          google_credential: googleCredential,
+          apiSelection: selection,
+        }),
       });
+
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+
+      // Update form state based on step
+      if (step === 1) {
+        setFormState(prev => ({
+          ...prev,
+          executiveSummary: data.executiveSummary,
+          problemStatement: data.problemStatement
+        }));
+        setScores(prev => ({ ...prev, problemScore: data.score }));
+      } else if (step === 2) {
+        setFormState(prev => ({
+          ...prev,
+          feasibilityPlan: data.feasibilityPlan,
+          feasibility: data.feasibilityScoreReasoning || "Feasibility details not available."
+        }));
+        setScores(prev => ({ ...prev, feasibilityScore: data.feasibilityScore || 0 }));
+      } else if (step === 3) {
+        setFormState(prev => ({
+          ...prev,
+          teamSkillsProfile: data.teamSkillsProfile,
+          teamSkills: data.teamSkillsScoreReasoning || "Team skills details not available."
+        }));
+        setScores(prev => ({ ...prev, teamSkillsScore: data.teamSkillsScore || 0 }));
+      }
+
+      // Update user credits and check eligibility
+      if (googleCredential) {
+        fetchUserDetails(googleCredential);
+        const eligibilityResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/claim?google_credential=${googleCredential}&uniqueSessionId=${uniqueSessionId}`
+        );
+        const eligibilityData = await eligibilityResponse.json();
+        setEligible(eligibilityData.eligible);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
+  const handleClaimFunds = async () => {
+    if (!currentAccount) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
+    setIsClaimLoading(true);
+    try {
+      const result = await executeFunction();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/claim`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          google_credential: googleCredential,
+          uniqueSessionId,
+          digest: result.digest,
+        }),
+      });
+
+      const data = await response.json();
+      setTxDetails({ digest: data.transactionDigest, network: data.network });
+      setShowTxModal(true);
+    } catch (error) {
+      alert("Error claiming funds: " + (error as Error).message);
+      console.error("Error claiming funds:", error);
+    } finally {
+      setIsClaimLoading(false);
+    }
+  };
+
+  console.log(txDetails);
   return (
     <>
       <Header />
+      {isClaimLoading && (
+        <div className={styles.loadingOverlay}>
+          <div className={styles.loadingContent}>
+            <div className={styles.loadingSpinner}></div>
+            <p>Processing your claim...</p>
+          </div>
+        </div>
+      )}
+      {showTxModal && txDetails && (
+        <div className={styles.modalOverlay} onClick={() => setShowTxModal(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>Transaction Details</h3>
+              <button className={styles.closeButton} onClick={() => setShowTxModal(false)}>×</button>
+            </div>
+            <div className={styles.modalContent}>
+              <iframe 
+                src={`https://suiscan.xyz/${txDetails.network}/tx/${txDetails.digest}`}
+                width="100%"
+                height="600px"
+                frameBorder="0"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <div className={styles.mainBody}>
         <div className={styles.leftSide}>
           <div className={styles.executiveSummary}>
             <h3>Executive Summary</h3>
-            <p>{executiveSummary}</p>
+            <p>{formState.executiveSummary}</p>
           </div>
 
           <div className={styles.problemStatement}>
@@ -178,15 +220,15 @@ export default function Page() {
               {activeAccordion === 1 &&
                 (submitting
                   ? "Generating summary, please wait..."
-                  : problemStatement || "Awaiting response...")}
+                  : formState.problemStatement || "Awaiting response...")}
               {activeAccordion === 2 &&
                 (submitting
                   ? "Generating summary, please wait..."
-                  : feasibilityPlan || "Awaiting response")}
+                  : formState.feasibilityPlan || "Awaiting response")}
               {activeAccordion === 3 &&
                 (submitting
                   ? "Generating summary, please wait..."
-                  : teamSkillsProfile || "Awaiting response...")}
+                  : formState.teamSkillsProfile || "Awaiting response...")}
             </div>
           </div>
 
@@ -242,8 +284,8 @@ export default function Page() {
                   trigger={
                     <button className={styles.processBtn}>Connect Wallet</button>
                   }
-                  open={open}
-                  onOpenChange={(isOpen) => setOpen(isOpen)}
+                  open={walletModalOpen}
+                  onOpenChange={(isOpen) => setWalletModalOpen(isOpen)}
                 />
               ) : (
                 <button
@@ -261,19 +303,29 @@ export default function Page() {
 
         <div className={styles.rightSide}>
           <div className={styles.rightHeader}>
-            <h2 className={styles.score}>Total Score - {TotalScore}/300</h2>
+            <div className={styles.scoreContainer}>
+              <h2 className={styles.score}>Total Score - {totalScore}/300</h2>
+              <button 
+                className={styles.claimFundsBtn}
+                onClick={handleClaimFunds}
+                disabled={!eligible}
+              >
+                Claim Funds
+              </button>
+            </div>
           </div>
+
           <div className={styles.accordions}>
             <div className={styles.accordion}>
               <button
                 className={styles.accordionButton}
                 onClick={() => toggleAccordion(1)}
               >
-                1 - Problem Statement - {score}/100
+                1 - Problem Statement - {scores.problemScore}/100
               </button>
               {activeAccordion === 1 && (
                 <div className={styles.accordionContent}>
-                  <p>{problemStatement}</p>
+                  <p>{formState.problemStatement}</p>
                 </div>
               )}
             </div>
@@ -283,11 +335,11 @@ export default function Page() {
                 className={styles.accordionButton}
                 onClick={() => toggleAccordion(2)}
               >
-                2 - Feasibility - {feasibilityScore}/100
+                2 - Feasibility - {scores.feasibilityScore}/100
               </button>
               {activeAccordion === 2 && (
                 <div className={styles.accordionContent}>
-                  <p>{feasibility}</p>
+                  <p>{formState.feasibility}</p>
                 </div>
               )}
             </div>
@@ -297,11 +349,11 @@ export default function Page() {
                 className={styles.accordionButton}
                 onClick={() => toggleAccordion(3)}
               >
-                3 - Team Skills - {teamSkillsScore}/100
+                3 - Team Skills - {scores.teamSkillsScore}/100
               </button>
               {activeAccordion === 3 && (
                 <div className={styles.accordionContent}>
-                  <p>{teamSkills}</p>
+                  <p>{formState.teamSkills}</p>
                 </div>
               )}
             </div>

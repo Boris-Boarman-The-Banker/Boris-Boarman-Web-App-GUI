@@ -30,6 +30,40 @@
   color: #000;
 }
 
+.dropdown {
+  background-color: white;
+  padding: 20px;
+  font-family: "Poppins";
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 1000;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.dropdownItem {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdownItem p {
+  margin: 0;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
   .header {
     flex-direction: column;

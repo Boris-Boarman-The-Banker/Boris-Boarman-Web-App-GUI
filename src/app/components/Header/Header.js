@@ -1,73 +1,31 @@
-import { useCredits } from '@/context/CreditsContext';
 import { GOOGLE_CLIENT_ID } from '@/lib/contants';
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useUser } from '@/context/UserContext';
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
-import { GoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
-import { useEffect, useState } from 'react';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
 
 const clientId = GOOGLE_CLIENT_ID;
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
-  const { credits, setCredits } = useCredits();
   const [open, setOpen] = useState(false);
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const { isLoggedIn, userName, credits, handleLoginSuccess, handleLogout } = useUser();
   const currentAccount = useCurrentAccount();
 
   useEffect(() => {
-    import("bootstrap/dist/js/bootstrap.bundle.min.js");
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
 
-    const storedGoogleCredential = localStorage.getItem("googleCredential");
-    if (storedGoogleCredential) {
-      setIsLoggedIn(true);
-      fetchUserDetails(storedGoogleCredential);
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const fetchUserDetails = (googleCredential) => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ google_credential: googleCredential }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user details: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("User Details:", data);
-        setUserName(data.name);
-        setCredits(data.credits);
-      })
-      .catch((error) => {
-        console.error("Error fetching user details:", error);
-      });
-  };
-
-  const handleLoginSuccess = (credentialResponse) => {
-    console.log('Login Success:', credentialResponse);
-    const googleCredential = credentialResponse.credential;
-
-    setIsLoggedIn(true);
-    localStorage.setItem("googleCredential", googleCredential);
-    fetchUserDetails(googleCredential);
-  };
-
-  const handleLogout = () => {
-    googleLogout();
-    setIsLoggedIn(false);
-    setUserName('');
-    localStorage.removeItem("googleCredential");
-  };
-
-  console.log("Wallet address:", currentAccount?.address);
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
@@ -93,12 +51,10 @@ export default function Header() {
                 </div>
               </>
             )}
-            <div className={`dropdown ${styles.dropdown}`}>
+            <div className={`${styles.dropdown}`} ref={dropdownRef}>
               <div
                 className={`${styles.userAccount} d-flex align-items-center`}
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
                 style={{ cursor: 'pointer' }}
               >
                 <h5 className={styles.heading}>
@@ -108,30 +64,33 @@ export default function Header() {
                   <FontAwesomeIcon icon={faCircleUser} className="ms-2 icon" style={{ fontSize: '22px' }} />
                 </div>
               </div>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {!isLoggedIn ? (
-                  <li>
-                    <GoogleLogin
-                      onSuccess={handleLoginSuccess}
-                      onError={() => console.log('Login Failed')}
-                      useOneTap
-                    />
-                  </li>
-                ) : (
-                  <>
-                    <li>
-                      <p className="dropdown-item">
-                        Welcome, <b>{userName}</b>
-                      </p>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={handleLogout}>
+              {dropdownOpen && (
+                <div className={styles.dropdownMenu}>
+                  {!isLoggedIn ? (
+                    <div className={styles.dropdownItem}>
+                      <GoogleLogin
+                        onSuccess={handleLoginSuccess}
+                        onError={() => console.log('Login Failed')}
+                        useOneTap
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <div className={styles.dropdownItem}>
+                        <p>
+                          Welcome, <b>{userName}</b>
+                        </p>
+                      </div>
+                      <div 
+                        className={styles.dropdownItem}
+                        onClick={handleLogout}
+                      >
                         Log Out
-                      </a>
-                    </li>
-                  </>
-                )}
-              </ul>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

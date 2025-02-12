@@ -1,11 +1,11 @@
 "use client";
-
-// import localFont from "next/font/local";
-import { CreditsProvider } from "@/context/CreditsContext";
 import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
 import { getFullnodeUrl } from '@mysten/sui/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { UserProvider } from "@/context/UserContext";
 import "../globals.css";
+
+const defaultNetwork = (process.env.NEXT_PUBLIC_SUI_NETWORK || 'testnet') as 'testnet' | 'localnet' | 'mainnet';
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode; }>) {
   // Config options for the networks you want to connect to
@@ -18,11 +18,11 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+      <SuiClientProvider networks={networkConfig} defaultNetwork={defaultNetwork}>
         <WalletProvider>
-          <CreditsProvider>
+          <UserProvider>
             {children}
-          </CreditsProvider>
+          </UserProvider>
         </WalletProvider>
       </SuiClientProvider>
     </QueryClientProvider>

@@ -1,70 +1,73 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-.mainBody{
+/* Layout */
+.mainBody {
   display: flex;
   margin: 2.5rem 2.5rem 0 2.5rem;
 }
+
 .leftSide {
   width: 70%;
   margin-right: 5px;
 }
+
+.rightSide {
+  width: 30%;
+  margin-left: 5px;
+}
+
+/* Executive Summary Section */
 .executiveSummary {
   margin-bottom: 2.5rem;
-}
-.executiveSummary,
-.problemStatment,
-.userInput {
   background-color: white;
   padding: 20px;
 }
-.executiveSummary > h3,
-.problemStatment > h3,
-.character > h3 {
-  /* font-family: 'Poppins'; */
-}
+
 .executiveSummary > p {
-  /* font-family: 'Poppins'; */
+  font-family: 'Poppins';
   font-size: 16px;
   font-weight: 400;
   background-color: #F2F2F2;
   padding: 20px;
   border-radius: 20px;
 }
-.problemStatment > p,
-.problemStatmentText,
-.character > p {
-  /* font-family: 'Poppins'; */
-  font-size: 14px;
-  font-weight: 400;
-}
-.problemStatmentText {
-  background-color: #F2F2F2;
+
+/* Problem Statement Section */
+.problemStatement {
+  background-color: white;
   padding: 20px;
-  border-radius: 20px;
-}
-.userInput {
-  margin-top: 2rem;
-}
-.character {
-  display: flex;
-  justify-content: space-between;
 }
 
 .problemContent {
   padding: 20px;
   border-radius: 20px;
-  background-color:#F2F2F2;;
+  background-color: #F2F2F2;
 }
+
 .awaitingResponse {
   color: #414BB2;
   font-style: italic;
+}
+
+/* User Input Section */
+.userInput {
+  margin-top: 2rem;
+  background-color: white;
+  padding: 20px;
+}
+
+.character {
+  display: flex;
+  justify-content: space-between;
 }
 
 .form {
   border: 1px solid #D1D0D1;
   border-radius: 20px;
   padding: 20px;
+  position: relative;
 }
+
 .textarea {
   width: 100%;
   border: none;
@@ -75,9 +78,12 @@
   padding-right: 20px;
   background: transparent;
 }
+
 .textarea:focus {
   outline: none;
 }
+
+/* Buttons */
 .processBtn {
   background-color: #414BB2;
   color: white;
@@ -88,20 +94,33 @@
   font-weight: bold;
   margin-top: 1rem;
 }
-.rightSide {
-  width: 30%;
-  margin-left: 5px;
+
+.processBtn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
 }
-.rightSideHeader {
-  background-color: white;
-  padding: 20px;
-}
-.score {
-  color: #505bb9;
+
+.claimFundsBtn {
+  background-color: #414BB2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
   font-weight: bold;
-  /* font-family: 'Poppins'; */
-  font-size: 25px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
+
+.claimFundsBtn:hover {
+  background-color: #363f96;
+}
+
+.claimFundsBtn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+/* Accordion Styles */
 .accordions {
   margin-top: 20px;
 }
@@ -113,14 +132,14 @@
 .accordionButton {
   width: 100%;
   margin-bottom: 2px;
-  background-color:white ;
-  color:#414BB2 ;
+  background-color: white;
+  color: #414BB2;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight:600;
-  /* font-family: 'Poppins', sans-serif; */
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
   text-align: left;
 }
 
@@ -133,6 +152,22 @@
   margin: 1px;
 }
 
+/* Score Section */
+.scoreContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.score {
+  color: #505bb9;
+  font-weight: bold;
+  font-family: 'Poppins';
+  font-size: 25px;
+}
+
+/* Reset Icon */
 .resetIcon {
   position: absolute;
   top: 10px;
@@ -143,9 +178,64 @@
 }
 
 .resetIcon:hover {
-  color: #ff0000; 
+  color: #ff0000;
 }
 
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  color: #666;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+
+.modalContent {
+  padding: 1rem;
+}
+
+/* Utility Classes */
 .warning {
   color: red;
   font-size: 16px;
@@ -153,9 +243,130 @@
   text-align: center;
 }
 
-.processBtn:disabled {
-  background-color: grey;
-  cursor: not-allowed;
-  color: white; 
+.executiveSummary > h3,
+.problemStatement > h3,
+.character > h3 {
+  /* font-family: 'Poppins'; */
+}
+
+.problemStatement > p,
+.problemStatementText,
+.character > p {
+  /* font-family: 'Poppins'; */
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.problemStatementText {
+  background-color: #F2F2F2;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.rightSideHeader {
+  background-color: white;
+  padding: 20px;
+}
+
+.proposalEvents {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.proposalEvents h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eventItem {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  border-left: 4px solid #0070f3;
+}
+
+.eventItem p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.eventItem p:first-child {
+  color: #333;
+  font-weight: 500;
+}
+
+.eventItem .timestamp {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 8px;
+}
+
+.proposalEvents .loading {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}
+
+.proposalEvents .error {
+  background: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loadingContent {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContent p {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
 }
 
