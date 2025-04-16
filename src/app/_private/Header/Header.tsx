@@ -21,9 +21,9 @@ export default function Header() {
       }
     };
 
-    // @ts-ignore
+    // @ts-expect-error any
     document.addEventListener('mousedown', handleClickOutside);
-    // @ts-ignore
+    // @ts-expect-error any
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 

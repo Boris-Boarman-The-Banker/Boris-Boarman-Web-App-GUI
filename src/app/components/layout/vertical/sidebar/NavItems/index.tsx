@@ -17,7 +17,7 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
       <Sidebar.Item
         href={item.url}
         as={Link}
-        target={item.isPro ? '_blank' : '_self'}
+        target={'_self'}
         className={`${item.url == pathname
           ? '!text-primary bg-lightprimary '
           : 'text-link bg-transparent group/link '
@@ -37,8 +37,6 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
           )}
           <span className="max-w-[110px] overflow-hidden truncate hide-menu flex-1">{item.name}</span>
         </span>
-          {item.isPro ?
-            <span className="py-1 px-2.5 text-[10px] bg-lightsecondary text-secondary rounded-full">Pro</span> : null}
         </div>
       </Sidebar.Item>
     </>

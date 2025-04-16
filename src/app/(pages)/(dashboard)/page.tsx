@@ -1,9 +1,9 @@
 import React from 'react';
-import SalesProfit from '../components/dashboard/SalesProfit';
-import TotalFollowers from '../components/dashboard/TotalFollowers';
-import TotalIncome from '../components/dashboard/TotalIncome';
-import PopularProducts from '../components/dashboard/PopularProducts';
-import EarningReports from '../components/dashboard/EarningReports';
+import SalesProfit from '../../components/dashboard/SalesProfit';
+import TotalFollowers from '../../components/dashboard/TotalFollowers';
+import TotalIncome from '../../components/dashboard/TotalIncome';
+import PopularProducts from '../../components/dashboard/PopularProducts';
+import EarningReports from '../../components/dashboard/EarningReports';
 
 const page = () => {
   return (

@@ -28,7 +28,7 @@ interface ScoreState {
   teamSkillsScore: number;
 }
 
-export default function _page() {
+export default function oldPage() {
   // Form state
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);

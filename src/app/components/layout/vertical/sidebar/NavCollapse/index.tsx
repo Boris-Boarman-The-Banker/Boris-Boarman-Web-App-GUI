@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Sidebar } from 'flowbite-react';
 import React from 'react';
 import { ChildItem } from '../Sidebaritems';
