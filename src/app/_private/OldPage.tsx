@@ -3,7 +3,7 @@ import { useUser } from '@/context/UserContext';
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
 import '@mysten/dapp-kit/dist/index.css';
 import React, { useState } from 'react';
-import Header from '../components/Header/Header';
+import Header from './Header/Header';
 import styles from '../Home.module.css';
 import { useSuiFundRelease } from '@/lib/sui';
 
@@ -28,7 +28,7 @@ interface ScoreState {
   teamSkillsScore: number;
 }
 
-export default function oldPage() {
+export default function OldPage() {
   // Form state
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
