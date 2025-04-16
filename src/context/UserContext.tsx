@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { CredentialResponse } from '@react-oauth/google';
 
 interface UserContextType {
   isLoggedIn: boolean;
@@ -11,7 +12,7 @@ interface UserContextType {
   setGoogleCredential: (credential: string | null) => void;
   fetchUserDetails: (googleCredential: string) => void;
   handleLogout: () => void;
-  handleLoginSuccess: (credentialResponse: { credential: string }) => void;
+  handleLoginSuccess: (credentialResponse: CredentialResponse) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -81,7 +82,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     fetchUserDetails,
     handleLogout,
     handleLoginSuccess
-  };
+  } as never;
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

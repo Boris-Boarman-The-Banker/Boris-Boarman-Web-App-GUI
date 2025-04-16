@@ -1,10 +1,8 @@
+import { useEffect, useRef, useState } from 'react';
 import { GOOGLE_CLIENT_ID } from '@/lib/contants';
 import { useUser } from '@/context/UserContext';
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
 
 const clientId = GOOGLE_CLIENT_ID;
@@ -12,18 +10,20 @@ const clientId = GOOGLE_CLIENT_ID;
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn, userName, credits, handleLoginSuccess, handleLogout } = useUser();
   const currentAccount = useCurrentAccount();
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: { target: Node | null; }) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
     };
 
+    // @ts-ignore
     document.addEventListener('mousedown', handleClickOutside);
+    // @ts-ignore
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
@@ -41,7 +41,8 @@ export default function Header() {
               <>
                 <ConnectModal
                   trigger={
-                    <button className={styles.credit} disabled={!!currentAccount}> {currentAccount ? 'Connected' : 'Connect Wallet'}</button>
+                    <button className={styles.credit}
+                            disabled={!!currentAccount}> {currentAccount ? 'Connected' : 'Connect Wallet'}</button>
                   }
                   open={open}
                   onOpenChange={(isOpen) => setOpen(isOpen)}
@@ -61,7 +62,7 @@ export default function Header() {
                   {isLoggedIn ? `Welcome, ${userName}` : 'User Account'}
                 </h5>
                 <div className={styles.iconContainer}>
-                  <FontAwesomeIcon icon={faCircleUser} className="ms-2 icon" style={{ fontSize: '22px' }} />
+                  {/*<FontAwesomeIcon icon={faCircleUser} className="ms-2 icon" style={{ fontSize: '22px' }} />*/}
                 </div>
               </div>
               {dropdownOpen && (
@@ -81,7 +82,7 @@ export default function Header() {
                           Welcome, <b>{userName}</b>
                         </p>
                       </div>
-                      <div 
+                      <div
                         className={styles.dropdownItem}
                         onClick={handleLogout}
                       >
@@ -95,8 +96,8 @@ export default function Header() {
           </div>
         </div>
         {currentAccount && (
-          <div className='d-flex justify-content-end gap-1 mt-2'>
-            <span className='fw-bold'>Wallet address: </span>
+          <div className="d-flex justify-content-end gap-1 mt-2">
+            <span className="fw-bold">Wallet address: </span>
             {currentAccount.address}
           </div>
         )}

@@ -1,11 +1,14 @@
+import React from 'react';
 import type { Metadata } from 'next';
-import { Poppins } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
-import './globals.css';
+import { Poppins } from 'next/font/google';
+import 'simplebar-react/dist/simplebar.min.css';
+import './css/globals.css';
+import { Flowbite, ThemeModeScript } from 'flowbite-react';
+import customTheme from '@/utils/theme/custom-theme';
 
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: "400",
+  subsets: ['latin'],
+  weight: '400',
 });
 
 export const metadata: Metadata = {
@@ -13,16 +16,21 @@ export const metadata: Metadata = {
   description: 'AI-powered grant proposal evaluation platform',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout(
+  {
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
-        {children}
-      </body>
+    <head>
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+      <ThemeModeScript/>
+    </head>
+    <body className={poppins.className}>
+    <Flowbite theme={{ theme: customTheme }}>{children}</Flowbite>
+    </body>
     </html>
   );
 }
