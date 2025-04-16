@@ -1,12 +1,10 @@
 import { useSignAndExecuteTransaction } from '@mysten/dapp-kit';
-import { Transaction } from "@mysten/sui/transactions";
-import { SUI_CLOCK_OBJECT_ID } from "@mysten/sui/utils";
+import { Transaction } from '@mysten/sui/transactions';
+import { SUI_CLOCK_OBJECT_ID } from '@mysten/sui/utils';
 import { useEffect, useState } from 'react';
-import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
-import { SuiEvent, SuiEventFilter } from '@mysten/sui/client';
+import { CoinStruct, getFullnodeUrl, SuiClient, SuiEvent, SuiEventFilter } from '@mysten/sui/client';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 import { decodeSuiPrivateKey } from '@mysten/sui/cryptography';
-import { CoinStruct } from '@mysten/sui/client';
 
 // Network configuration
 export type SuiNetwork = 'localnet' | 'testnet' | 'mainnet';
@@ -180,6 +178,7 @@ export function useSuiFundRelease({ currentAccount }: UseSuiFundReleaseProps) {
 
       return new Promise((resolve, reject) => {
         signAndExecuteTransaction(
+          // @ts-expect-error type
           { transaction: tx },
           {
             onSuccess(data, event) {
