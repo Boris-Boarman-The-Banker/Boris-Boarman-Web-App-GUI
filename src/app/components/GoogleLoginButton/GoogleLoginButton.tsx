@@ -7,7 +7,10 @@ import Image from 'next/image';
 export const GoogleLoginButton = () => {
   const handleLogin = async () => {
     const { error } = await db.auth.signInWithOAuth({
-      provider: 'google'
+      provider: 'google',
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL,
+      }
     });
     if (error) console.error('Google login error:', error.message);
   };
