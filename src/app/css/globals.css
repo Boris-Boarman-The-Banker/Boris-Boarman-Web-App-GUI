@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import './layouts/sidebar.css';
 @import './layouts/header.css';
 @import './theme/default-colors.css';
 @import './override/reboot.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 @layer components {
@@ -106,5 +106,9 @@
 
     .checkbox {
         @apply h-[18px] w-[18px] border border-border bg-transparent focus:ring-0 focus:ring-offset-0
+    }
+
+    .rounded-lg {
+        border-radius: 6px !important;
     }
 }
