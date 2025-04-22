@@ -5,8 +5,13 @@ import { Button } from 'flowbite-react';
 
 export const GoogleLogoutButton = () => {
   const handleLogout = async () => {
-    await db.auth.signOut();
-    window.location.href = '/auth/login';
+    const { error } = await db.auth.signOut();
+
+    if (error) {
+      console.error('Logout failed:', error.message);
+    } else {
+      window.location.href = '/auth/login';
+    }
   };
 
   return <Button
