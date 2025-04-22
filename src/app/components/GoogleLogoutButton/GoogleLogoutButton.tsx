@@ -5,6 +5,8 @@ import { Button } from 'flowbite-react';
 
 export const GoogleLogoutButton = () => {
   const handleLogout = async () => {
+    await db.auth.getSession();
+
     const { error } = await db.auth.signOut();
 
     if (error) {
