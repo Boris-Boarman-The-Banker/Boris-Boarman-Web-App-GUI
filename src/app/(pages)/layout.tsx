@@ -6,10 +6,12 @@ import { UserProvider } from '@/context/UserContext';
 import React from 'react';
 import Sidebar from '@/app/components/layout/vertical/sidebar/Sidebar';
 import Header from '@/app/components/layout/vertical/header/Header';
+import { useAuth } from '@/lib/AuthProvider';
 
 const defaultNetwork = (process.env.NEXT_PUBLIC_SUI_NETWORK || 'testnet') as 'testnet' | 'localnet' | 'mainnet';
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode; }>) {
+  const { user } = useAuth();
   // Config options for the networks you want to connect to
   const { networkConfig } = createNetworkConfig({
     localnet: { url: getFullnodeUrl('localnet') },
@@ -24,9 +26,9 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
         <WalletProvider>
           <UserProvider>
             <div className="flex w-full  bg-lightgray min-h-[calc(100vh_-_65px)]">
-              <div className="page-wrapper flex w-full">
+              <div className={user ? 'page-wrapper flex w-full' : 'flex w-full'}>
                 {/* Header/sidebar */}
-                <Sidebar/>
+                {user && <Sidebar/>}
                 <div className="page-wrapper-sub flex flex-col w-full ">
                   {/* Top Header  */}
                   <Header/>

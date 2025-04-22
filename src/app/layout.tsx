@@ -5,6 +5,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import './css/globals.css';
 import { Flowbite, ThemeModeScript } from 'flowbite-react';
 import customTheme from '@/utils/theme/custom-theme';
+import { AuthProvider } from '@/lib/AuthProvider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -29,7 +30,11 @@ export default function RootLayout(
       <ThemeModeScript/>
     </head>
     <body className={poppins.className}>
-    <Flowbite theme={{ theme: customTheme }}>{children}</Flowbite>
+    <Flowbite theme={{ theme: customTheme }}>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </Flowbite>
     </body>
     </html>
   );

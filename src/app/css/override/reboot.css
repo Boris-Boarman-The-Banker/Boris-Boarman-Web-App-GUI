@@ -53,3 +53,15 @@
     outline: none !important;
     border: none !important
 }
+
+.rounded-lg {
+    border-radius: 6px !important;
+}
+
+.bg-primary {
+    background-color: var(--color-primary) !important;
+}
+
+button:focus-visible {
+    outline: none !important;
+}

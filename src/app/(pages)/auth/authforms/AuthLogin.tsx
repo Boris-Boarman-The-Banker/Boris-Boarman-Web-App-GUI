@@ -1,6 +1,4 @@
 import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
-import Link from 'next/link';
-import React from 'react';
 
 const AuthLogin = () => {
   return (
@@ -11,6 +9,7 @@ const AuthLogin = () => {
             <Label htmlFor="Username" value="Username"/>
           </div>
           <TextInput
+            disabled
             id="username"
             type="text"
             sizing="md"
@@ -22,6 +21,7 @@ const AuthLogin = () => {
             <Label htmlFor="userpwd" value="Password"/>
           </div>
           <TextInput
+            disabled
             id="userpwd"
             type="password"
             sizing="md"
@@ -30,7 +30,7 @@ const AuthLogin = () => {
         </div>
         <div className="flex justify-between my-5">
           <div className="flex items-center gap-2">
-            <Checkbox id="accept" className="checkbox"/>
+            <Checkbox id="accept" className="checkbox" disabled/>
             <Label
               htmlFor="accept"
               className="opacity-90 font-normal cursor-pointer"
@@ -38,11 +38,11 @@ const AuthLogin = () => {
               Remeber this Device
             </Label>
           </div>
-          <Link href={'/'} className="text-primary text-sm font-medium">
-            Forgot Password ?
-          </Link>
+          {/*<Link href={'/'} className="text-primary text-sm font-medium">*/}
+          {/*  Forgot Password ?*/}
+          {/*</Link>*/}
         </div>
-        <Button color={'primary'} href="/" as={Link} className="w-full">
+        <Button color={'primary'} className="w-full" disabled>
           Sign in
         </Button>
       </form>

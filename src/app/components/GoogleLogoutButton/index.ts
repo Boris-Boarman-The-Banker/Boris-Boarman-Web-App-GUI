@@ -1,0 +1,2 @@
+export { GoogleLogoutButton } from './GoogleLogoutButton';
+
