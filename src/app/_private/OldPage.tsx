@@ -1,11 +1,11 @@
-"use client";
-import { useUser } from "@/context/UserContext";
+'use client';
+import { useUser } from '@/context/UserContext';
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
 import '@mysten/dapp-kit/dist/index.css';
-import React, { useState } from "react";
-import Header from "../components/Header/Header";
-import styles from "../Home.module.css";
-import { useSuiFundRelease } from "@/lib/sui";
+import React, { useState } from 'react';
+import Header from './Header/Header';
+import styles from '../Home.module.css';
+import { useSuiFundRelease } from '@/lib/sui';
 
 // Types
 interface TxDetails {
@@ -28,17 +28,17 @@ interface ScoreState {
   teamSkillsScore: number;
 }
 
-export default function Page() {
+export default function OldPage() {
   // Form state
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [formState, setFormState] = useState<FormState>({
-    executiveSummary: "Boris Boarman is a specialized platform designed to evaluate and guide project proposals for crypto foundation grants. With a focus on the blockchain ecosystem, Boris assists users in refining their project ideas to ensure alignment with relevant grant opportunities. The platform offers comprehensive evaluations, including feasibility analysis, market size projections, and impact assessments.",
-    problemStatement: "Describe the problem this project will solve and why it matters. Include any helpful data or statistics to back up your points.",
-    feasibilityPlan: "",
-    feasibility: "Feasibility analysis will appear here.",
-    teamSkillsProfile: "",
-    teamSkills: "Team skills evaluation will appear here."
+    executiveSummary: 'Boris Boarman is a specialized platform designed to evaluate and guide project proposals for crypto foundation grants. With a focus on the blockchain ecosystem, Boris assists users in refining their project ideas to ensure alignment with relevant grant opportunities. The platform offers comprehensive evaluations, including feasibility analysis, market size projections, and impact assessments.',
+    problemStatement: 'Describe the problem this project will solve and why it matters. Include any helpful data or statistics to back up your points.',
+    feasibilityPlan: '',
+    feasibility: 'Feasibility analysis will appear here.',
+    teamSkillsProfile: '',
+    teamSkills: 'Team skills evaluation will appear here.'
   });
 
   // Score state
@@ -70,7 +70,7 @@ export default function Page() {
     setText(e.target.value);
   };
 
-  const clearText = () => setText("");
+  const clearText = () => setText('');
 
   const toggleAccordion = (index: number) => {
     setActiveAccordion(activeAccordion === index ? null : index);
@@ -80,14 +80,14 @@ export default function Page() {
     if (!activeAccordion) return;
     setSubmitting(true);
 
-    const selection = step === 1 ? ["executiveSummary"] 
-                   : step === 2 ? ["feasibilityPlan"]
-                   : ["teamSkillsProfile"];
+    const selection = step === 1 ? ['executiveSummary']
+      : step === 2 ? ['feasibilityPlan']
+        : ['teamSkillsProfile'];
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/form`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           uniqueSessionId,
           projectIdea: text,
@@ -96,7 +96,7 @@ export default function Page() {
         }),
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
 
       // Update form state based on step
@@ -111,14 +111,14 @@ export default function Page() {
         setFormState(prev => ({
           ...prev,
           feasibilityPlan: data.feasibilityPlan,
-          feasibility: data.feasibilityScoreReasoning || "Feasibility details not available."
+          feasibility: data.feasibilityScoreReasoning || 'Feasibility details not available.'
         }));
         setScores(prev => ({ ...prev, feasibilityScore: data.feasibilityScore || 0 }));
       } else if (step === 3) {
         setFormState(prev => ({
           ...prev,
           teamSkillsProfile: data.teamSkillsProfile,
-          teamSkills: data.teamSkillsScoreReasoning || "Team skills details not available."
+          teamSkills: data.teamSkillsScoreReasoning || 'Team skills details not available.'
         }));
         setScores(prev => ({ ...prev, teamSkillsScore: data.teamSkillsScore || 0 }));
       }
@@ -133,7 +133,7 @@ export default function Page() {
         setEligible(eligibilityData.eligible);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     } finally {
       setSubmitting(false);
     }
@@ -149,8 +149,8 @@ export default function Page() {
     try {
       const result = await executeFunction();
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/claim`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           google_credential: googleCredential,
           uniqueSessionId,
@@ -162,8 +162,8 @@ export default function Page() {
       setTxDetails({ digest: data.transactionDigest, network: data.network });
       setShowTxModal(true);
     } catch (error) {
-      alert("Error claiming funds: " + (error as Error).message);
-      console.error("Error claiming funds:", error);
+      alert('Error claiming funds: ' + (error as Error).message);
+      console.error('Error claiming funds:', error);
     } finally {
       setIsClaimLoading(false);
     }
@@ -172,7 +172,7 @@ export default function Page() {
   console.log(txDetails);
   return (
     <>
-      <Header />
+      <Header/>
       {isClaimLoading && (
         <div className={styles.loadingOverlay}>
           <div className={styles.loadingContent}>
@@ -189,7 +189,7 @@ export default function Page() {
               <button className={styles.closeButton} onClick={() => setShowTxModal(false)}>×</button>
             </div>
             <div className={styles.modalContent}>
-              <iframe 
+              <iframe
                 src={`https://suiscan.xyz/${txDetails.network}/tx/${txDetails.digest}`}
                 width="100%"
                 height="600px"
@@ -209,26 +209,26 @@ export default function Page() {
           <div className={styles.problemStatement}>
             <h3>
               {activeAccordion === 1
-                ? "Problem Statement"
+                ? 'Problem Statement'
                 : activeAccordion === 2
-                  ? "Feasibility"
+                  ? 'Feasibility'
                   : activeAccordion === 3
-                    ? "Team Skills"
-                    : "Problem Statement"}
+                    ? 'Team Skills'
+                    : 'Problem Statement'}
             </h3>
             <div className={styles.problemContent}>
               {activeAccordion === 1 &&
                 (submitting
-                  ? "Generating summary, please wait..."
-                  : formState.problemStatement || "Awaiting response...")}
+                  ? 'Generating summary, please wait...'
+                  : formState.problemStatement || 'Awaiting response...')}
               {activeAccordion === 2 &&
                 (submitting
-                  ? "Generating summary, please wait..."
-                  : formState.feasibilityPlan || "Awaiting response")}
+                  ? 'Generating summary, please wait...'
+                  : formState.feasibilityPlan || 'Awaiting response')}
               {activeAccordion === 3 &&
                 (submitting
-                  ? "Generating summary, please wait..."
-                  : formState.teamSkillsProfile || "Awaiting response...")}
+                  ? 'Generating summary, please wait...'
+                  : formState.teamSkillsProfile || 'Awaiting response...')}
             </div>
           </div>
 
@@ -237,7 +237,7 @@ export default function Page() {
               <h3>User Input</h3>
               <p className={styles.wordcount}>{text.length}/ 2000 characters</p>
             </div>
-            <div className={styles.form} style={{ position: "relative" }}>
+            <div className={styles.form} style={{ position: 'relative' }}>
               <textarea
                 value={text}
                 onChange={handleChange}
@@ -245,8 +245,8 @@ export default function Page() {
                 maxLength={2000}
                 placeholder={
                   !isLoggedIn
-                    ? "Login is Required to use this Feature"
-                    : "Enter your text here..."
+                    ? 'Login is Required to use this Feature'
+                    : 'Enter your text here...'
                 }
                 disabled={!isLoggedIn}
               ></textarea>
@@ -293,7 +293,7 @@ export default function Page() {
                   onClick={() => handleSubmit(activeAccordion || 1)}
                   className={styles.processBtn}
                 >
-                  {submitting ? "Processing..." : "Process"}
+                  {submitting ? 'Processing...' : 'Process'}
                 </button>
               )}
 
@@ -305,7 +305,7 @@ export default function Page() {
           <div className={styles.rightHeader}>
             <div className={styles.scoreContainer}>
               <h2 className={styles.score}>Total Score - {totalScore}/300</h2>
-              <button 
+              <button
                 className={styles.claimFundsBtn}
                 onClick={handleClaimFunds}
                 disabled={!eligible}
