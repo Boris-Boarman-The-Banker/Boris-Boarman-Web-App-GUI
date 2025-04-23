@@ -24,13 +24,14 @@ export interface MenuItem {
 
 const SidebarContent: MenuItem[] = [
   {
-    heading: 'Dashboards',
+    heading: 'Projects',
     children: [
       {
-        name: 'Dashboard',
-        icon: 'solar:widget-add-line-duotone',
-        id: 'dashboard',
-        url: '/',
+        name: '+ Add new project',
+        icon: 'icon-plus',
+        color: 'red',
+        id: 'newProject',
+        url: '/projects/new',
       }
     ],
   }

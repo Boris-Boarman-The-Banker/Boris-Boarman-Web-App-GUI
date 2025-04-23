@@ -27,7 +27,7 @@ const BoxedRegister = () => {
               <div className="flex gap-2 text-base text-ld font-medium mt-6 items-center justify-start justify-center">
                 <p>Already have an Account?</p>
                 <Link
-                  href={'/auth/login'}
+                  href={'/login'}
                   className="text-primary text-sm font-medium"
                 >
                   Sign in

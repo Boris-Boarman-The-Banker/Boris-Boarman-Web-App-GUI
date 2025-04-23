@@ -23,7 +23,6 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
           : 'text-link bg-transparent group/link '
         } `}
       >
-        <div className="flex justify-between items-center">
         <span className="flex gap-3 align-center items-center truncate">
           {item.icon ? (
             <Icon icon={item.icon} className={`${item.color}`} height={18}/>
@@ -35,9 +34,9 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
               } `}
             ></span>
           )}
-          <span className="max-w-[110px] overflow-hidden truncate hide-menu flex-1">{item.name}</span>
+          <span className="max-w-[130px] overflow-hidden truncate hide-menu flex-1"
+                style={{ color: item.color }}>{item.name}</span>
         </span>
-        </div>
       </Sidebar.Item>
     </>
   );
