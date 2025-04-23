@@ -12,7 +12,7 @@ export const GoogleLogoutButton = () => {
     if (error) {
       console.error('Logout failed:', error.message);
     } else {
-      window.location.href = '/auth/login';
+      window.location.href = '/login';
     }
   };
 

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Drawer, Navbar } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import Profile from './Profile';
-import MobileSidebar from '../sidebar/MobileSidebar';
 import { useAuth } from '@/lib/AuthProvider';
+import SidebarLayout from '@/app/components/layout/vertical/sidebar/Sidebar';
 
 const Header = () => {
   const { user, loading } = useAuth();
@@ -36,7 +36,7 @@ const Header = () => {
       <header
         className={`z-[5] ${
           isSticky
-            ? 'bg-lightgray dark:bg-dark shadow-md fixed w-full'
+            ? 'sticky top-0 z-[5] bg-lightgray dark:bg-dark shadow-md fixed w-full'
             : 'bg-transparent'
         }`}
       >
@@ -45,21 +45,22 @@ const Header = () => {
           className={`rounded-none bg-transparent dark:bg-transparent py-4 sm:px-30 px-4`}
         >
           <div className="flex gap-3 items-center justify-between w-full ">
-            {user &&
-                <div className="flex gap-2 items-center">
-                    <span
-                        onClick={() => setIsOpen(true)}
-                        className="h-10 w-10 flex text-black dark:text-white text-opacity-65 xl:hidden hover:text-primary hover:bg-lightprimary rounded-full justify-center items-center cursor-pointer"
-                    >
+            <div className="flex gap-2 items-center">
+              {user &&
+                  <span
+                      onClick={() => setIsOpen(true)}
+                      className="h-10 w-10 flex text-black dark:text-white text-opacity-65 xl:hidden hover:text-primary hover:bg-lightprimary rounded-full justify-center items-center cursor-pointer"
+                  >
                         <Icon icon="solar:hamburger-menu-line-duotone" height={21}/>
                     </span>
-                </div>
-            }
+              }
+            </div>
+
 
             <div className="flex gap-4 items-center">
               {user ?
                 <Profile user={user}/>
-                : !loading ? <Button color="primary" href="/auth/login">Login</Button> : null
+                : !loading ? <Button color="primary" href="/login">Login</Button> : null
               }
             </div>
           </div>
@@ -68,7 +69,7 @@ const Header = () => {
       {user &&
           <Drawer open={isOpen} onClose={handleClose} className="w-130">
               <Drawer.Items>
-                  <MobileSidebar/>
+                  <SidebarLayout/>
               </Drawer.Items>
           </Drawer>
       }
