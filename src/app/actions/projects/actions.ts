@@ -24,12 +24,11 @@ export async function getProject({ id }: { id: string }) {
     .select('id, name, region, description, userId')
     .eq('userId', user.id)
     .eq('id', id)
-    .limit(1)
-    .order('createdAt', { ascending: false });
+    .single();
 
   if (error) throw error;
 
-  return data && data.length > 0 ? data[0] : null;
+  return data;
 }
 
 export async function createProject(formData: FormData): Promise<Project> {

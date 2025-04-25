@@ -14,8 +14,7 @@ export default function NewProject() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold">New Project</h1>
-      <ProjectForm action={handleCreateProject}>
+      <ProjectForm action={handleCreateProject} title="Create a new project">
         <div className="flex w-full items-end justify-end gap-3">
           <Button type="submit" color="primary">Save changes</Button>
           <Button color="muted" onClick={() => router.push('/')}>Cancel</Button>
