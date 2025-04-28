@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { ChildItem } from '../Sidebaritems';
-import { Sidebar } from 'flowbite-react';
+import { Sidebar, Tooltip } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -34,8 +34,10 @@ const NavItems: React.FC<NavItemsProps> = ({ item }) => {
               } `}
             ></span>
           )}
-          <span className="max-w-[130px] overflow-hidden truncate hide-menu flex-1"
-                style={{ color: item.color }}>{item.name}</span>
+          <Tooltip content={item.name}>
+            <span className="max-w-[130px] overflow-hidden truncate hide-menu flex-1"
+                  style={{ color: item.color }}>{item.name}</span>
+          </Tooltip>
         </span>
       </Sidebar.Item>
     </>

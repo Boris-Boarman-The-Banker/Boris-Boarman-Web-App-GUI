@@ -8,54 +8,18 @@ import NavCollapse from './NavCollapse';
 import SimpleBar from 'simplebar-react';
 import FullLogo from '../../shared/logo/FullLogo';
 import { Icon } from '@iconify/react';
-import { getProjects } from '@/app/actions/projects/actions';
-import { Project } from '@/app/types/project';
-
-const addProjects = (menuItems: MenuItem[], projects: Project[]): MenuItem[] => {
-  return menuItems.reduce((acc, item) => {
-    if (item.heading !== 'Projects') {
-      return acc;
-    }
-
-    const itemsFromProjects = projects.map(({ name, id }) => ({
-      name,
-      icon: 'icon-folder',
-      id,
-      url: `/projects/${id}`,
-    }));
-
-    const newProjectActionItem = item.children?.find(({ id }) => id === 'newProject');
-
-    if (newProjectActionItem) {
-      return [
-        ...acc,
-        {
-          ...item,
-          children: [...itemsFromProjects, newProjectActionItem],
-        },
-      ];
-    }
-
-    return acc;
-
-  }, [] as MenuItem[]);
-};
+import { useProjectStore } from '@/lib/store/projects/projectsStore';
+import { projectsToMenuItems } from './utils';
 
 const SidebarLayout = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>(SidebarContent);
+  const { projects } = useProjectStore();
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await getProjects();
-        setMenuItems((state) => addProjects(state, data));
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+    if (projects) {
+      setMenuItems((state) => projectsToMenuItems(state, projects));
+    }
+  }, [projects]);
 
   return (
     <div className="flex">
