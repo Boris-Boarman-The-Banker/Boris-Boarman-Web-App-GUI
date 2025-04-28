@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'flowbite-react';
+import { Button, Spinner } from 'flowbite-react';
 import { ProjectForm } from '@/app/(pages)/projects/components';
 import { getProject } from '@/app/actions/projects/actions';
 import { use, useEffect, useState } from 'react';
@@ -31,11 +31,14 @@ export default function EditProject(
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <ProjectForm readonly project={project}>
-        <div className="flex w-full items-end justify-end gap-3">
-          <Button color="muted" onClick={() => router.push('/')}>Cancel</Button>
-        </div>
-      </ProjectForm>
+      {!project
+        ? <Spinner size="xl"/>
+        : <ProjectForm readonly project={project}>
+          <div className="flex w-full items-end justify-end gap-3">
+            <Button color="muted" onClick={() => router.push('/')}>Cancel</Button>
+          </div>
+        </ProjectForm>
+      }
     </div>
   );
 }

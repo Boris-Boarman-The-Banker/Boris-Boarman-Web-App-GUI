@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { Project } from '@/app/types/project';
-import { getUser } from '@/app/actions/getUser';
+import { getUser } from '@/app/actions/helpers';
 
 export async function getProjects() {
   const user = await getUser();
@@ -31,15 +31,8 @@ export async function getProject({ id }: { id: string }) {
   return data;
 }
 
-export async function createProject(formData: FormData): Promise<Project> {
-
-  const rawFormData = {
-    name: formData.get('name'),
-    region: formData.get('region'),
-    description: formData.get('description'),
-  };
-
-  const { name, region, description } = rawFormData;
+export async function createProject(formData: Partial<Project>): Promise<Project> {
+  const { name, region, description } = formData ?? {};
 
   if (!name || !region || !description) {
     throw new Error('Missing required fields');
@@ -47,14 +40,12 @@ export async function createProject(formData: FormData): Promise<Project> {
 
   const user = await getUser();
 
-  const { data, error } = await db.from('projects').insert([
-    {
-      name,
-      region,
-      description,
-      userId: user.id,
-    },
-  ]);
+  const { data, error } = await db.from('projects').insert({
+    name,
+    region,
+    description,
+    userId: user.id,
+  }).select().single();
 
   if (error) throw error;
 
