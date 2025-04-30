@@ -5,6 +5,11 @@ import TotalIncome from '../../components/dashboard/TotalIncome';
 import PopularProducts from '../../components/dashboard/PopularProducts';
 import EarningReports from '../../components/dashboard/EarningReports';
 
+// Temporarily commenting out metadata-related code
+// export const metadata = { ... }; // No metadata block found in this file
+// export async function generateMetadata(...) { ... } // No generateMetadata function found in this file
+// No imports related to metadata generation were found.
+
 const page = () => {
   return (
     <>
