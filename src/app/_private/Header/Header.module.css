@@ -48,6 +48,9 @@
   z-index: 1000;
   margin-top: 5px;
   overflow: hidden;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .dropdownItem {

@@ -6,12 +6,10 @@ import { UserProvider } from '@/context/UserContext';
 import React from 'react';
 import Sidebar from '@/app/components/layout/vertical/sidebar/Sidebar';
 import Header from '@/app/components/layout/vertical/header/Header';
-import { useAuth } from '@/lib/AuthProvider';
 
 const defaultNetwork = (process.env.NEXT_PUBLIC_SUI_NETWORK || 'testnet') as 'testnet' | 'localnet' | 'mainnet';
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode; }>) {
-  const { user } = useAuth();
   // Config options for the networks you want to connect to
   const { networkConfig } = createNetworkConfig({
     localnet: { url: getFullnodeUrl('localnet') },
@@ -25,28 +23,13 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
       <SuiClientProvider networks={networkConfig} defaultNetwork={defaultNetwork}>
         <WalletProvider>
           <UserProvider>
-            <div className="flex w-full  bg-lightgray min-h-[calc(100vh_-_65px)]">
-              <div className={user ? 'page-wrapper flex w-full' : 'flex w-full'}>
-                {/* Header/sidebar */}
-                {user && <Sidebar/>}
-                <div className="page-wrapper-sub flex flex-col w-full ">
-                  {/* Top Header  */}
-                  <Header/>
-
-                  <div
-                    className={`h-100`}
-                  >
-                    {/* Body Content  */}
-                    <div
-                      className={`w-full`}
-                    >
-                      <div className="container py-30">
-                        {children}
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
+            <div className="flex w-full min-h-screen">
+              {/* Ensure Sidebar is always visible */}
+              <Sidebar />
+              <div className="flex flex-col w-full">
+                {/* Ensure Header is always visible */}
+                <Header />
+                <main className="flex-grow">{children}</main>
               </div>
             </div>
           </UserProvider>

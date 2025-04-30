@@ -8,7 +8,8 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Error-404'
 };
-const Error = () => {
+
+const NotFound = () => {
   return (
     <>
       <div className="h-screen flex items-center justify-center bg-white dark:bg-darkgray">
@@ -32,4 +33,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default NotFound;

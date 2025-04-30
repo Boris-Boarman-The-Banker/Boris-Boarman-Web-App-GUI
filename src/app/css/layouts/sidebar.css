@@ -88,6 +88,14 @@
     margin-bottom: 0;
 }
 
+/* Ensure dropdown visibility in sidebar */
+.menu-sidebar .collapse-menu {
+    display: block !important;
+}
+
+.menu-sidebar .drop-icon {
+    display: block !important;
+}
 
 @media (min-width: 1199px) {
     [data-sidebar-type="mini-sidebar"] .page-wrapper {
