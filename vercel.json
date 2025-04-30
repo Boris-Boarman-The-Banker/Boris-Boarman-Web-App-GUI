@@ -1,6 +1,12 @@
 {
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/next"
+      }
+    ],
     "engines": {
-      "node": "18.x"
+      "node": "22.x"
     }
   }
-
