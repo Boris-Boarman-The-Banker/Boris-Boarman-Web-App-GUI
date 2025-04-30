@@ -1,0 +1,8 @@
+Flask-Caching==2.1.0
+flask-cors
+python-dotenv
+matplotlib
+numpy
+langchain-openai
+openai
+langchain
