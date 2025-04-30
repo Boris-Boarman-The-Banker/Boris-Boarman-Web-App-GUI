@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import React from 'react';
 import SalesProfit from '../../components/dashboard/SalesProfit';
 import TotalFollowers from '../../components/dashboard/TotalFollowers';
@@ -5,10 +6,10 @@ import TotalIncome from '../../components/dashboard/TotalIncome';
 import PopularProducts from '../../components/dashboard/PopularProducts';
 import EarningReports from '../../components/dashboard/EarningReports';
 
-// Temporarily commenting out metadata-related code
-// export const metadata = { ... }; // No metadata block found in this file
-// export async function generateMetadata(...) { ... } // No generateMetadata function found in this file
-// No imports related to metadata generation were found.
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Main dashboard page showing sales, followers, and income statistics',
+};
 
 const page = () => {
   return (
