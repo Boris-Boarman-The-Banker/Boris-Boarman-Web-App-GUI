@@ -8,5 +8,6 @@
     ],
     "env": {
       "NODE_VERSION": "22.x"
-    }
+    },
+    "installCommand": "pnpm install"
   }
