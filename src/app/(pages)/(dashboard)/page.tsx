@@ -5,41 +5,32 @@ import TotalIncome from '../../components/dashboard/TotalIncome';
 import PopularProducts from '../../components/dashboard/PopularProducts';
 import EarningReports from '../../components/dashboard/EarningReports';
 
-export const metadata = {
-  title: 'Dashboard',
-  description: 'Main dashboard page showing sales, followers, and income statistics',
-};
-
-export default function Page({
-  params,
-  searchParams,
-}: {
-  params: { slug: string }; // Plain object
-  searchParams?: { [key: string]: string | string[] | undefined }; // Plain, optional object
-}) {
+const page = () => {
   return (
     <>
       <div className="grid grid-cols-12 gap-30">
         <div className="lg:col-span-8 col-span-12">
-          <SalesProfit />
+          <SalesProfit/>
         </div>
         <div className="lg:col-span-4 col-span-12">
           <div className="grid grid-cols-12 ">
             <div className="col-span-12 mb-30">
-              <TotalFollowers />
+              <TotalFollowers/>
             </div>
             <div className="col-span-12">
-              <TotalIncome />
+              <TotalIncome/>
             </div>
           </div>
         </div>
         <div className="lg:col-span-8 col-span-12">
-          <PopularProducts />
+          <PopularProducts/>
         </div>
         <div className="lg:col-span-4 col-span-12">
-          <EarningReports />
+          <EarningReports/>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default page;
