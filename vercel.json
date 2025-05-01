@@ -1,13 +1,4 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/next"
-      }
-    ],
-    "env": {
-      "NODE_VERSION": "22.x"
-    },
-    "installCommand": "pnpm install"
-  }
+  "version": 2,
+  "installCommand": "pnpm install"
+}
