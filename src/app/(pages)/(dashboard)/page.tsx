@@ -1,4 +1,3 @@
-import { Metadata } from 'next/types';
 import React from 'react';
 import SalesProfit from '../../components/dashboard/SalesProfit';
 import TotalFollowers from '../../components/dashboard/TotalFollowers';
@@ -6,7 +5,7 @@ import TotalIncome from '../../components/dashboard/TotalIncome';
 import PopularProducts from '../../components/dashboard/PopularProducts';
 import EarningReports from '../../components/dashboard/EarningReports';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Dashboard',
   description: 'Main dashboard page showing sales, followers, and income statistics',
 };
@@ -15,8 +14,8 @@ export default function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: { slug: string }; // Plain object
+  searchParams?: { [key: string]: string | string[] | undefined }; // Plain, optional object
 }) {
   return (
     <>
