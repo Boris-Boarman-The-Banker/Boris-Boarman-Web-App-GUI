@@ -15,6 +15,7 @@
     "@mysten/dapp-kit": "^0.14.50",
     "@mysten/sui": "^1.21.2",
     "@react-oauth/google": "^0.12.1",
+    "@supabase/auth-js": "^2.69.1",
     "@supabase/supabase-js": "^2.49.4",
     "@tabler/icons-react": "3.5.0",
     "@tanstack/react-query": "^5.66.0",
