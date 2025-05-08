@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { GoogleLoginButton } from '@/app/components/GoogleLoginButton';
 import { useAuth } from '@/lib/AuthProvider';
 import Logo from '@/app/components/layout/shared/logo/Logo';
-import AuthLogin from '@/app/(pages)/auth/authforms/AuthLogin';
+import AuthLogin from '@/app/(pages)/(auth)/authforms/AuthLogin';
 
 const BoxedLogin = () => {
   const router = useRouter();
